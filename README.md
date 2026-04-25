@@ -1,69 +1,63 @@
 # UPV Dating App with a Twist: Design Pattern Implementation
 
-## Understanding Patterns Through a UPV Dating Application
-
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [What are Design Patterns?](#what-are-design-patterns)
-- [Our Example: UPV Dating App](#our-example-upv-dating-app)
-- [Pattern 1: Factory Pattern](#pattern-1-factory-pattern)
-- [Pattern 2: Observer Pattern](#pattern-2-observer-pattern)
-- [Pattern 3: Adapter Pattern](#pattern-3-adapter-pattern)
-- [Best Practices](#best-practices)
-- [Summary](#summary)
+- [A. App Summary](#a-app-summary)
+- [B. Design Pattern Implementation](#b-design-pattern-implementation)
+  - [Pattern 1: Creational - Factory Pattern](#pattern-1-creational---factory-pattern)
+    - [i. Name of Pattern](#i-name-of-pattern)
+    - [ii. Concept](#ii-concept)
+    - [iii. Visual Diagram](#iii-visual-diagram)
+    - [iv. Why it Works](#iv-why-it-works)
+    - [v. Pseudocode](#v-pseudocode)
+  - [Pattern 2: Behavioral - Observer Pattern](#pattern-2-behavioral---observer-pattern)
+    - [i. Name of Pattern](#i-name-of-pattern-1)
+    - [ii. Concept](#ii-concept-1)
+    - [iii. Visual Diagram](#iii-visual-diagram-1)
+    - [iv. Why it Works](#iv-why-it-works-1)
+    - [v. Pseudocode](#v-pseudocode-1)
+  - [Pattern 3: Structural - Adapter Pattern](#pattern-3-structural---adapter-pattern)
+    - [i. Name of Pattern](#i-name-of-pattern-2)
+    - [ii. Concept](#ii-concept-2)
+    - [iii. Visual Diagram](#iii-visual-diagram-2)
+    - [iv. Why it Works](#iv-why-it-works-2)
+    - [v. Pseudocode](#v-pseudocode-2)
+- [C. Initial Pattern Summary](#c-initial-pattern-summary)
+- [D. Final Notes](#d-final-notes)
 
 ---
 
-## Introduction
+# A. App Summary
 
-Design patterns are reusable solutions to common problems in software design. They are not full programs or exact code templates. Instead, they are proven ways of organizing code so that an application becomes easier to maintain, extend, and understand.
+## App Name
 
-In this project, the design patterns are applied to a fictional **UPV Dating App with a Twist**. The goal is to demonstrate how one **Creational**, one **Behavioral**, and one **Structural** design pattern can be used in a real application idea.
+**IskoMatch**
 
-The three patterns used are:
+## App Idea
 
-| Pattern Category | Pattern Used | Main Purpose |
-| --------------- | ------------ | ------------ |
-| **Creational** | **Factory Pattern** | Creates different types of objects without scattering creation logic |
-| **Behavioral** | **Observer Pattern** | Notifies multiple parts of the system when an important event happens |
-| **Structural** | **Adapter Pattern** | Allows incompatible systems or data formats to work together |
+**IskoMatch** is a UPV dating app designed for students who want to meet potential matches through personality, shared campus experiences, and student-life interests rather than just profile pictures.
 
----
+The app lets users create a student dating profile containing basic information such as:
 
-## What are Design Patterns?
+- Name or nickname
+- Course and year level
+- Interests
+- Favorite UPV spots
+- Study habits
+- Personality preferences
+- Type of connection they are looking for
 
-**Design patterns** are common solutions to recurring software design problems. They help developers avoid messy code by giving them a structured way to solve problems that usually appear as an application grows.
-
-When developers are still starting out, they may solve problems by writing direct code everywhere. However, as the system becomes larger, this can lead to repeated logic, tightly connected components, and code that is difficult to update.
-
-Design patterns help solve these problems by making the code:
-
-- **More maintainable** - easier to update and fix
-- **More reusable** - useful in different parts of the system
-- **More scalable** - easier to extend when the app grows
-- **More organized** - each class or component has a clearer responsibility
-- **Easier to communicate** - developers can use shared terms like Factory, Observer, and Adapter
-
-### The Three Pattern Categories Used in This Project
-
-| Category | Purpose | Pattern Used in This App |
-| -------- | ------- | ------------------------ |
-| **Creational Pattern** | Focuses on how objects are created | **Factory Pattern** |
-| **Behavioral Pattern** | Focuses on how objects communicate and react | **Observer Pattern** |
-| **Structural Pattern** | Focuses on how objects or systems are connected | **Adapter Pattern** |
+The app then suggests possible matches based on compatibility, shared interests, and campus-related preferences.
 
 ---
 
-## Our Example: UPV Dating App
+## The Twist: Mystery Match Quest
 
-Throughout this guide, we will apply design patterns to a dating application called **IskoMatch**.
+The unique twist of **IskoMatch** is called **Mystery Match Quest**.
+
+Instead of showing the full profile immediately, the app slowly reveals profile details through short campus-themed quests. This makes the matching experience more fun, less appearance-based, and more connected to UPV student life.
+
+For example, instead of immediately showing the user’s full name and photo, the app may first show a clue like:
 
 ```text
-UPV Dating App
-├── Mystery Match Quest Creation
-│   └── Factory Pattern
-├── New Match Event System
-│   └── Observer Pattern
-└── Campus Event and Date Idea Integration
-    └── Adapter Pattern
+A CMSC student who likes beach sunsets, quiet study sessions, and spontaneous food trips after class.
