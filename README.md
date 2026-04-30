@@ -185,3 +185,142 @@ DISPLAY quest.start()
 ```
 ---
 
+Here's the complete Observer Pattern section in the same format as your document:
+
+---
+
+## Pattern 2: Behavioral – Observer Pattern
+
+### i. Name of Pattern
+Behavioral – Observer Pattern
+
+---
+
+### ii. Concept
+
+The Observer Pattern is a behavioral design pattern na ginagamit kung kailangan ng isang object (ang **Subject**) na automatic na mag-notify ng maraming objects (ang mga **Observer**) tuwing nagbabago ang state niya — without the subject needing to know exactly who is listening.
+
+Parang subscription system — yung mga nag-subscribe lang ang makakatanggap ng update. In **IskoMatch**, this is applied to the **match notification system**. When two users get matched, multiple parts of the app need to react simultaneously:
+
+- The **Chat Screen** opens a new conversation
+- The **Notification Banner** alerts both users
+- The **Match Counter** updates on the profile
+- The **Quest Tracker** unlocks the next Mystery Match Quest
+
+Instead of the matching logic calling each of these manually, the app uses a `MatchEvent` as the subject, and each component registers itself as an observer.
+
+---
+
+### iii. Visual Diagram
+
+```mermaid
+flowchart TD
+  subgraph WITHOUT["❌ WITHOUT Observer Pattern"]
+    M1[MatchingLogic] -->|manually calls| C1[ChatScreen.open]
+    M1 -->|manually calls| N1[NotificationBanner.show]
+    M1 -->|manually calls| MC1[MatchCounter.update]
+    M1 -->|manually calls| Q1[QuestTracker.unlock]
+  end
+
+  subgraph WITH["✅ WITH Observer Pattern"]
+    M2[MatchEvent\nSubject] -->|notify| C2[ChatScreen\nObserver]
+    M2 -->|notify| N2[NotificationBanner\nObserver]
+    M2 -->|notify| MC2[MatchCounter\nObserver]
+    M2 -->|notify| Q2[QuestTracker\nObserver]
+  end
+```
+
+---
+
+### iv. Why it Works
+
+**Without Observer Pattern**
+
+Without the Observer Pattern, the matching logic has to manually call each component that needs to react to a new match. Bawat bagong component na idadagdag, kailangan pa i-edit ang matching logic mismo.
+
+Problematic siya because:
+- Tightly coupled ang matching logic sa bawat screen/component.
+- Kapag nag-add ng bagong observer (like a `QuestTracker`), kailangan i-update ang core matching logic.
+- Mas mahirap mag-test ng matching logic separately.
+- Mas matagal mag-debug kapag isang component lang dapat mag-react pero all of them are being called.
+- The matching logic is doing too much — it should only care about *whether* a match happened, not *what* happens next.
+
+| ❌ Without Observer Pattern | ✅ With Observer Pattern |
+|---|---|
+| Matching logic manually calls every screen | Matching logic just fires `notify()` |
+| Tight coupling between logic and UI | Loose coupling — observers register themselves |
+| Adding a new feature = editing matching code | Adding a new feature = create new observer |
+| Hard to test matching logic in isolation | Subject and observers are independently testable |
+| One change can break multiple components | Components react independently |
+
+**With Observer Pattern**
+
+With the Observer Pattern, the `MatchEvent` subject lang ang responsible for broadcasting that a match happened. Each component subscribes to this event and handles its own reaction.
+
+Mas okay ito because:
+- The matching logic does not need to know about ChatScreen, Notifications, or Quests.
+- Bagong feature? Gawa lang ng bagong Observer at i-subscribe — wala nang iba pang babaguhin.
+- Mas modular, mas maintainable, mas testable.
+- Components can even subscribe and unsubscribe dynamically (e.g., if the chat screen is not yet loaded).
+
+Basically, the Observer Pattern works here because a match event triggers **multiple independent reactions**, and those reactions should be **decoupled from the event source**.
+
+---
+
+### v. Pseudocode
+
+```
+INTERFACE Observer:
+  FUNCTION onMatchFound(matchData)
+
+CLASS ChatScreen IMPLEMENTS Observer:
+  FUNCTION onMatchFound(matchData):
+    DISPLAY "Opening chat with " + matchData.userName
+
+CLASS NotificationBanner IMPLEMENTS Observer:
+  FUNCTION onMatchFound(matchData):
+    DISPLAY "You matched with " + matchData.userName + "!"
+
+CLASS MatchCounter IMPLEMENTS Observer:
+  FUNCTION onMatchFound(matchData):
+    INCREMENT matchCount by 1
+    DISPLAY "Total matches: " + matchCount
+
+CLASS QuestTracker IMPLEMENTS Observer:
+  FUNCTION onMatchFound(matchData):
+    DISPLAY "New quest unlocked: Mystery Match Quest"
+
+CLASS MatchEvent:
+  observers = []
+
+  FUNCTION subscribe(observer):
+    ADD observer to observers
+
+  FUNCTION unsubscribe(observer):
+    REMOVE observer from observers
+
+  FUNCTION notify(matchData):
+    FOR EACH observer in observers:
+      CALL observer.onMatchFound(matchData)
+
+MAIN PROGRAM:
+  event = new MatchEvent()
+
+  chat = new ChatScreen()
+  banner = new NotificationBanner()
+  counter = new MatchCounter()
+  quest = new QuestTracker()
+
+  event.subscribe(chat)
+  event.subscribe(banner)
+  event.subscribe(counter)
+  event.subscribe(quest)
+
+  matchData = { userName: "Isko123", course: "CMSC", year: 3 }
+  event.notify(matchData)
+```
+
+---
+
+This follows the exact same structure as Pattern 1. You can paste this directly into your `.md` file and the Mermaid diagram will render automatically in GitHub, Obsidian, or any Mermaid-compatible viewer.
+
