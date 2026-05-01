@@ -22,8 +22,6 @@
     - [iii. Visual Diagram](#iii-visual-diagram-2)
     - [iv. Why it Works](#iv-why-it-works-nga-2)
     - [v. Pseudocode](#v-pseudocode-2)
-- [C. Initial Pattern Summary](#c-initial-pattern-summary)
-- [D. Final Notes](#d-final-notes)
 
 ---
 
@@ -183,10 +181,6 @@ selectedQuestType = "campus_spot"
 quest = QuestFactory.createQuest(selectedQuestType)
 DISPLAY quest.start()
 ```
----
-
-Here's the complete Observer Pattern section in the same format as your document:
-
 ---
 
 ## Pattern 2: Behavioral – Observer Pattern
@@ -416,6 +410,3 @@ MAIN PROGRAM:
 ```
 
 ---
-
-This follows the exact same structure as Pattern 1. You can paste this directly into your `.md` file and the Mermaid diagram will render automatically in GitHub, Obsidian, or any Mermaid-compatible viewer.
-
