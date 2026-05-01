@@ -14,9 +14,9 @@
     - [i. Name of Pattern](#i-name-of-pattern-1)
     - [ii. Concept](#ii-concept-1)
     - [iii. Visual Diagram](#iii-visual-diagram-1)
-    - [iv. Why it Works](#iv-why-it-works-nga-1)
+    - [iv. Why it Works Nga](#iv-why-it-works-nga-1)
     - [v. Pseudocode](#v-pseudocode-1)
-  - [Pattern 3: Structural - Adapter Pattern](#pattern-3-structural---adapter-pattern)
+  - [Pattern 3: Structural - Facade Pattern](#pattern-3-structural---facade-pattern)
     - [i. Name of Pattern](#i-name-of-pattern-2)
     - [ii. Concept](#ii-concept-2)
     - [iii. Visual Diagram](#iii-visual-diagram-2)
@@ -318,6 +318,101 @@ MAIN PROGRAM:
 
   matchData = { userName: "Isko123", course: "CMSC", year: 3 }
   event.notify(matchData)
+```
+
+---
+
+## Pattern 3: Structural - Facade Pattern
+
+### i. Name of Pattern
+Structural - Facade Pattern
+
+---
+
+### ii. Concept
+
+The Facade Pattern is used when a feature needs several subsystems working together, but you want the caller to deal with just one clean entry point. Think of it like a front desk: one person takes your request, then coordinates all the back-office stuff for you.
+
+In **IskoMatch**, this fits the **quest issuance flow**. When a quest is created and assigned, a lot happens behind the scenes:
+
+- `QuestFactory` builds the quest
+- `QuestValidator` checks it
+- `User` gets the quest assigned
+- `Notifier` sends a message
+- `Logger` records it
+
+Instead of calling all of those in every screen, the app can expose a single method like:
+`QuestFacade.createAndIssueQuest(type)`
+
+---
+
+### iii. Visual Diagram
+
+```mermaid
+flowchart TD
+  subgraph WITHOUT["❌ WITHOUT Facade Pattern"]
+    C1[Screen / Controller] --> F1[QuestFactory.createQuest]
+    C1 --> V1[QuestValidator.validate]
+    C1 --> U1[User.quests.add]
+    C1 --> N1[Notifier.send]
+    C1 --> L1[Logger.log]
+  end
+
+  subgraph WITH["✅ WITH Facade Pattern"]
+    C2[Screen / Controller] -->|one call| FAC[QuestFacade]
+    FAC --> F2[QuestFactory.createQuest]
+    FAC --> V2[QuestValidator.validate]
+    FAC --> U2[User.quests.add]
+    FAC --> N2[Notifier.send]
+    FAC --> L2[Logger.log]
+  end
+```
+
+---
+
+### iv. Why it Works Nga
+
+**Without Facade Pattern**
+
+Each screen has to remember every step and the correct order. If you add a new step (like analytics), you have to update all screens. That is easy to miss and easy to break.
+
+| ❌ Without Facade Pattern | ✅ With Facade Pattern |
+|---|---|
+| Caller handles every subsystem | Caller uses one method |
+| Repeated step-by-step logic | Logic is centralized |
+| Easy to forget a step | Consistent flow every time |
+| Harder to maintain | Easier to extend |
+
+**With Facade Pattern**
+
+The caller just asks the facade to issue the quest. The facade handles the messy part, so screens stay clean and focused. If the flow changes, you update one place.
+
+---
+
+### v. Pseudocode
+
+```
+CLASS QuestFacade:
+  CONSTRUCTOR(userId):
+    self.validator = QuestValidator()
+    self.user = User(userId)
+    self.notifier = Notifier()
+    self.logger = Logger()
+
+  FUNCTION createAndIssueQuest(selectedQuestType):
+    quest = QuestFactory.createQuest(selectedQuestType)
+    self.user.quests.add(quest)
+
+    IF NOT self.validator.validate(quest):
+      RETURN error "Quest validation failed"
+
+    self.notifier.send(quest)
+    self.logger.log("Quest created and issued", quest)
+    RETURN success
+
+MAIN PROGRAM:
+  facade = new QuestFacade(userId = "user_001")
+  facade.createAndIssueQuest("campus_spot")
 ```
 
 ---
