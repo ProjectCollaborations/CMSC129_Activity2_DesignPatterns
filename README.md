@@ -20,7 +20,7 @@
     - [i. Name of Pattern](#i-name-of-pattern-2)
     - [ii. Concept](#ii-concept-2)
     - [iii. Visual Diagram](#iii-visual-diagram-2)
-    - [iv. Why it Works](#iv-why-it-works-nga-2)
+    - [iv. Why it Works Nga](#iv-why-it-works-nga-2)
     - [v. Pseudocode](#v-pseudocode-2)
 
 ---
@@ -183,7 +183,7 @@ DISPLAY quest.start()
 ```
 ---
 
-## Pattern 2: Behavioral – Observer Pattern
+## Pattern 2: Behavioral - Observer Pattern
 
 ### i. Name of Pattern
 Behavioral – Observer Pattern
